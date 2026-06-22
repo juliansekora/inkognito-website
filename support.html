@@ -94,15 +94,15 @@
 
 <footer><div class="wrap"><a href="index.html">← Inkognito</a></div></footer>
 <script>
-  const show = (lang)=>{
+  const show = (lang, persist)=>{
     document.documentElement.lang=lang;
     document.querySelectorAll('section[data-lang]').forEach(s=>s.style.display = s.dataset.lang===lang?'block':'none');
     document.querySelectorAll('#lang button').forEach(b=>b.classList.toggle('active',b.dataset.set===lang));
-    try{localStorage.setItem('inkognito_lang',lang);}catch(e){}
+    if(persist){try{localStorage.setItem('inkognito_lang',lang);}catch(e){}}
   };
-  document.querySelectorAll('#lang button').forEach(b=>b.addEventListener('click',()=>show(b.dataset.set)));
+  document.querySelectorAll('#lang button').forEach(b=>b.addEventListener('click',()=>show(b.dataset.set, true)));
   let saved=null; try{saved=localStorage.getItem('inkognito_lang');}catch(e){}
-  show(saved || ((navigator.language||'de').startsWith('en')?'en':'de'));
+  show(saved || ((navigator.language||'de').startsWith('en')?'en':'de'), false);
 </script>
 </body>
 </html>

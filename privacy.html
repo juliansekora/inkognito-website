@@ -47,6 +47,9 @@
   <h2>3. Spielinhalte</h2>
   <p>Deine Zeichnungen, Spielernamen und Fotos bleiben ausschließlich auf deinem Gerät und werden nicht an uns übertragen.</p>
 
+  <h2>Cookies &amp; lokale Speicherung</h2>
+  <p>Diese Website setzt <strong>keine Cookies</strong> und nutzt <strong>kein Tracking, keine Analyse-Tools und keine Drittanbieter-Dienste</strong>. Wenn du die Sprache (DE/EN) umschaltest, wird deine Auswahl in der lokalen Speicherung (localStorage) deines Browsers abgelegt, damit die Seite sie beim nächsten Besuch beibehält. Diese Speicherung ist technisch notwendig für die von dir gewählte Funktion (§ 25 Abs. 2 TTDSG) und erfolgt nur durch deine aktive Auswahl. Du kannst sie jederzeit über die Einstellungen deines Browsers löschen.</p>
+
   <h2>4. Zweck &amp; Rechtsgrundlage</h2>
   <p>Die freiwilligen Angaben helfen uns, die App zu verbessern. Rechtsgrundlage ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO). Du kannst sie jederzeit mit Wirkung für die Zukunft widerrufen – schreib uns einfach.</p>
 
@@ -78,6 +81,9 @@
   <h2>3. Game content</h2>
   <p>Your drawings, player names and photos stay solely on your device and are never sent to us.</p>
 
+  <h2>Cookies &amp; local storage</h2>
+  <p>This website sets <strong>no cookies</strong> and uses <strong>no tracking, no analytics and no third-party services</strong>. When you switch the language (DE/EN), your choice is stored in your browser's local storage so the site remembers it on your next visit. This storage is strictly necessary for the function you selected and only happens through your active choice. You can clear it anytime via your browser's settings.</p>
+
   <h2>4. Purpose &amp; legal basis</h2>
   <p>The optional details help us improve the app. The legal basis is your consent (Art. 6(1)(a) GDPR). You can withdraw it at any time with future effect – just contact us.</p>
 
@@ -100,15 +106,15 @@
 
 <footer><div class="wrap"><a href="index.html">← Inkognito</a></div></footer>
 <script>
-  const show = (lang)=>{
+  const show = (lang, persist)=>{
     document.documentElement.lang=lang;
     document.querySelectorAll('section[data-lang]').forEach(s=>s.style.display = s.dataset.lang===lang?'block':'none');
     document.querySelectorAll('#lang button').forEach(b=>b.classList.toggle('active',b.dataset.set===lang));
-    try{localStorage.setItem('inkognito_lang',lang);}catch(e){}
+    if(persist){try{localStorage.setItem('inkognito_lang',lang);}catch(e){}}
   };
-  document.querySelectorAll('#lang button').forEach(b=>b.addEventListener('click',()=>show(b.dataset.set)));
+  document.querySelectorAll('#lang button').forEach(b=>b.addEventListener('click',()=>show(b.dataset.set, true)));
   let saved=null; try{saved=localStorage.getItem('inkognito_lang');}catch(e){}
-  show(saved || ((navigator.language||'de').startsWith('en')?'en':'de'));
+  show(saved || ((navigator.language||'de').startsWith('en')?'en':'de'), false);
 </script>
 </body>
 </html>
