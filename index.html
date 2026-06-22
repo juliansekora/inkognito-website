@@ -83,6 +83,7 @@
   .shots{display:flex; gap:22px; justify-content:center; overflow-x:auto; padding:6px 4px 14px; scroll-snap-type:x mandatory}
   .phone{flex:0 0 auto; width:236px; aspect-ratio:9/19.5; background:#0c0c0e; border-radius:36px; padding:9px;
          box-shadow:0 22px 50px rgba(0,0,0,.22); scroll-snap-align:center}
+  .phone img{width:100%; height:100%; object-fit:cover; border-radius:28px; display:block}
   .screen{width:100%; height:100%; border-radius:28px; overflow:hidden; position:relative; display:flex; flex-direction:column; color:#fff}
   .screen .notch{position:absolute; top:8px; left:50%; transform:translateX(-50%); width:64px; height:6px; border-radius:6px; background:rgba(255,255,255,.35); z-index:3}
   .sc-red{background:radial-gradient(120% 80% at 50% 0%, var(--red-top), var(--red-bot))}
@@ -198,6 +199,7 @@
         </span>
         <span class="soon" data-de="Bald" data-en="Soon">Bald</span>
       </a>
+      <a class="btn btn-ghost" href="#how" data-de="So funktioniert's" data-en="How it works">So funktioniert's</a>
     </div>
     <p class="meta" data-de="3–12 Spieler · ein Handy · auch auf Papier · komplett offline"
        data-en="3–12 players · one phone · also on paper · fully offline">3–12 Spieler · ein Handy · auch auf Papier · komplett offline</p>
@@ -226,40 +228,13 @@
     <p class="lead" data-de="Aufgeräumtes Design, ein Handy für alle – so spielt sich Inkognito."
        data-en="Clean design, one phone for everyone – this is how Inkognito plays.">Aufgeräumtes Design, ein Handy für alle – so spielt sich Inkognito.</p>
     <div class="shots">
-      <!-- Screen 1: Rolle aufdecken -->
-      <div class="phone"><div class="screen sc-red"><div class="notch"></div><div class="sc-pad" style="display:flex;flex-direction:column;height:100%">
-        <div class="sc-title" data-de="Spieler 1" data-en="Player 1">Spieler 1</div>
-        <div class="cover-card">
-          <div class="pname" data-de="Spieler 1" data-en="Player 1">Spieler 1</div>
-          <div class="cmask">🎭</div>
-          <div class="reveal" data-de="↑ Karte aufdecken" data-en="↑ Reveal card">↑ Karte aufdecken</div>
-        </div>
-        <div class="sc-sub" style="margin-top:12px" data-de="Karte nach oben ziehen" data-en="Pull the card up">Karte nach oben ziehen</div>
-      </div></div></div>
-      <!-- Screen 2: Wort/Rolle -->
-      <div class="phone"><div class="screen sc-red"><div class="notch"></div><div class="sc-pad" style="display:flex;flex-direction:column;height:100%">
-        <div class="sc-title" data-de="Das Wort" data-en="The word">Das Wort</div>
-        <div class="black-card">
-          <div class="badge2" style="background:#22c55e;color:#fff">✓</div>
-          <div class="word2">Pizza</div>
-          <div class="chip2" style="background:#f76b2e;color:#fff" data-de="Kategorie: Essen" data-en="Category: Food">Kategorie: Essen</div>
-        </div>
-        <div class="sc-sub" style="margin-top:12px" data-de="Nur du siehst dein Wort" data-en="Only you see your word">Nur du siehst dein Wort</div>
-      </div></div></div>
-      <!-- Screen 3: Kategorien -->
-      <div class="phone"><div class="screen sc-red"><div class="notch"></div><div class="sc-pad" style="display:flex;flex-direction:column;height:100%">
-        <div class="sc-title" data-de="Kategorien" data-en="Categories">Kategorien</div>
-        <div class="sc-list">
-          <div class="sc-row"><span class="ic">🐾</span><span data-de="Tiere" data-en="Animals">Tiere</span></div>
-          <div class="sc-row"><span class="ic">💡</span><span data-de="Gegenstände" data-en="Objects">Gegenstände</span></div>
-          <div class="sc-row"><span class="ic">🔥</span><span data-de="Trends" data-en="Trends">Trends</span></div>
-          <div class="sc-row"><span class="ic">🍔</span><span data-de="Essen & Trinken" data-en="Food & drink">Essen & Trinken</span><span class="lock">🔒</span></div>
-        </div>
-        <div class="sc-sub" style="margin-top:auto" data-de="Wähle, was gemalt wird" data-en="Pick what to draw">Wähle, was gemalt wird</div>
-      </div></div></div>
+      <div class="phone"><img src="screenshots/menu.png" alt="Inkognito Startbildschirm" loading="lazy"></div>
+      <div class="phone"><img src="screenshots/reveal.png" alt="Rolle aufdecken" loading="lazy"></div>
+      <div class="phone"><img src="screenshots/word.png" alt="Geheimes Wort" loading="lazy"></div>
+      <div class="phone"><img src="screenshots/categories.png" alt="Kategorien" loading="lazy"></div>
+      <div class="phone"><img src="screenshots/setup.png" alt="Schwierigkeit einstellen" loading="lazy"></div>
     </div>
-    <p class="shot-cap" data-de="Vorschau-Mockups – echte App-Screenshots folgen zum Launch."
-       data-en="Preview mockups – real app screenshots coming at launch.">Vorschau-Mockups – echte App-Screenshots folgen zum Launch.</p>
+    <p class="shot-cap" data-de="Echte Screenshots aus der App." data-en="Real screenshots from the app.">Echte Screenshots aus der App.</p>
   </div>
 </section>
 
