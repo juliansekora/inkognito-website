@@ -3,17 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Inkognito – das Bluff-Mal-Spiel</title>
-<meta name="description" content="Inkognito: das Party-Spiel, bei dem alle dasselbe Wort malen – nur die Fälscher nicht. 3–12 Spieler, ein Handy, auch auf Papier.">
-<meta property="og:title" content="Inkognito – das Bluff-Mal-Spiel">
-<meta property="og:description" content="Alle malen dasselbe Wort – nur die Fälscher nicht. Enttarnt den Hochstapler!">
+<title>Ploonk – Drei Party-Spiele in einer App</title>
+<meta name="description" content="Ploonk: drei Party-Spiele in einer App – Inkognito (zeichnen & bluffen), Tic (schätzen mit geheimer Mission) und das Schätz-Spiel. Für die ganze Gruppe, ein Handy, offline & online.">
+<meta property="og:title" content="Ploonk – Drei Party-Spiele in einer App">
+<meta property="og:description" content="Zeichnen, schätzen, bluffen – drei Party-Spiele in einer App. Ein Abo schaltet alles frei.">
 <meta property="og:type" content="website">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <style>
   :root{
-    --red:#d92d49; --red-top:#ed4566; --red-bot:#9e1c42;
-    --orange-top:#ffa944; --orange-bot:#f76b2e;
-    --ink:#1d1d1f; --muted:#6c6c72; --line:#ececef; --soft:#faf6f7;
+    /* Ploonk-Palette (Variablen-Namen aus dem alten Theme, Werte auf Lila/Magenta) */
+    --red:#7a2a9a; --red-top:#8a3bb0; --red-bot:#4d1670;
+    --orange-top:#c23a8a; --orange-bot:#8a2170;
+    --ink:#1d1d1f; --muted:#6c6c72; --line:#ececef; --soft:#f7f4fb;
     --radius:18px; --max:1080px;
   }
   *{box-sizing:border-box}
@@ -52,14 +53,14 @@
   .hero{background:radial-gradient(120% 90% at 50% 0%, var(--red-top), var(--red-bot)); color:#fff; text-align:center; padding:60px 0 70px}
   .hero-mask{width:118px; height:118px; margin:0 auto 20px; filter:drop-shadow(0 16px 30px rgba(0,0,0,.28))}
   .hero h1{font-size:clamp(40px,8vw,68px); line-height:1.02; margin:0 0 14px; font-weight:800; letter-spacing:-.02em}
-  .hero p.sub{font-size:clamp(17px,2.6vw,21px); max-width:560px; margin:0 auto 28px; color:rgba(255,255,255,.92)}
+  .hero p.sub{font-size:clamp(17px,2.6vw,21px); max-width:580px; margin:0 auto 28px; color:rgba(255,255,255,.92)}
   .hero .cta{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; align-items:center}
   .meta{margin-top:20px; font-size:14px; color:rgba(255,255,255,.78)}
 
   /* Sections */
   section.block{padding:72px 0}
   h2{font-size:clamp(26px,4vw,36px); text-align:center; margin:0 0 8px; letter-spacing:-.01em}
-  .lead{text-align:center; color:var(--muted); max-width:580px; margin:0 auto 44px}
+  .lead{text-align:center; color:var(--muted); max-width:600px; margin:0 auto 44px}
   .grid{display:grid; gap:18px}
   .g3{grid-template-columns:repeat(3,1fr)}
   .g4{grid-template-columns:repeat(4,1fr)}
@@ -68,48 +69,31 @@
   .card h3{margin:0 0 6px; font-size:18px}
   .card p{margin:0; color:var(--muted); font-size:15px}
   .soft{background:var(--soft)}
+
+  /* Spiel-Karten */
+  .game{border:1px solid var(--line); border-radius:var(--radius); padding:26px; background:#fff; display:flex; flex-direction:column}
+  .game .ico{width:54px; height:54px; border-radius:15px; display:grid; place-items:center; font-size:28px; margin-bottom:14px}
+  .game h3{margin:0 0 2px; font-size:20px}
+  .game .tag{font-weight:600; color:var(--red); font-size:14px; margin-bottom:8px}
+  .game p{margin:0; color:var(--muted); font-size:15px}
+
   .cat{display:flex; align-items:center; gap:14px; border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px; background:#fff}
   .cat .dot{width:42px; height:42px; border-radius:12px; display:grid; place-items:center; font-size:22px; flex:none}
   .cat h3{margin:0; font-size:17px}
   .cat p{margin:0; color:var(--muted); font-size:14px}
-  .pill{margin-left:auto; font-size:12px; font-weight:700; color:var(--red); background:#fbe7eb; padding:4px 10px; border-radius:999px; flex:none}
-
-  /* Example words */
-  .words{display:flex; flex-wrap:wrap; gap:10px; justify-content:center; max-width:760px; margin:0 auto}
-  .word{display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line); background:#fff; border-radius:999px; padding:9px 15px; font-weight:500}
-  .word .wd{width:10px; height:10px; border-radius:50%; flex:none}
+  .pill{margin-left:auto; font-size:12px; font-weight:700; color:var(--red); background:#efe3fb; padding:4px 10px; border-radius:999px; flex:none}
 
   /* Screenshots / phone mockups */
   .shots{display:flex; gap:22px; justify-content:center; overflow-x:auto; padding:6px 4px 14px; scroll-snap-type:x mandatory}
   .phone{flex:0 0 auto; width:236px; aspect-ratio:9/19.5; background:#0c0c0e; border-radius:36px; padding:9px;
          box-shadow:0 22px 50px rgba(0,0,0,.22); scroll-snap-align:center}
   .phone img{width:100%; height:100%; object-fit:cover; border-radius:28px; display:block}
-  .screen{width:100%; height:100%; border-radius:28px; overflow:hidden; position:relative; display:flex; flex-direction:column; color:#fff}
-  .screen .notch{position:absolute; top:8px; left:50%; transform:translateX(-50%); width:64px; height:6px; border-radius:6px; background:rgba(255,255,255,.35); z-index:3}
-  .sc-red{background:radial-gradient(120% 80% at 50% 0%, var(--red-top), var(--red-bot))}
-  .sc-pad{padding:30px 18px 18px}
-  .sc-title{font-weight:800; font-size:21px; text-align:center; margin:2px 0 12px}
-  .sc-sub{font-size:12px; opacity:.85; text-align:center}
-  .cover-card{flex:1; border-radius:20px; border:3px solid rgba(255,255,255,.85);
-              background:linear-gradient(135deg,var(--orange-top),var(--orange-bot));
-              display:flex; flex-direction:column; align-items:center; justify-content:space-between; padding:18px 12px}
-  .cover-card .pname{font-weight:800; font-size:18px}
-  .cover-card .cmask{font-size:46px}
-  .cover-card .reveal{font-weight:700; font-size:14px; text-align:center}
-  .black-card{flex:1; border-radius:20px; background:#000; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px}
-  .black-card .badge2{width:46px; height:46px; border-radius:50%; display:grid; place-items:center; font-size:22px; font-weight:800}
-  .black-card .word2{font-size:26px; font-weight:800; text-align:center}
-  .chip2{font-size:12px; font-weight:700; padding:4px 11px; border-radius:999px}
-  .sc-list{display:flex; flex-direction:column; gap:9px; margin-top:6px}
-  .sc-row{display:flex; align-items:center; gap:10px; background:rgba(0,0,0,.28); border-radius:13px; padding:11px 12px; font-weight:600; font-size:14px}
-  .sc-row .ic{font-size:18px}
-  .sc-row .lock{margin-left:auto; opacity:.8; font-size:13px}
   .shot-cap{text-align:center; color:var(--muted); font-size:13px; margin-top:14px}
 
   /* Pricing */
   .prices{display:grid; gap:18px; grid-template-columns:repeat(3,1fr); align-items:stretch}
   .price{border:1px solid var(--line); border-radius:20px; padding:26px 24px; background:#fff; display:flex; flex-direction:column}
-  .price.feature{border-color:var(--red); box-shadow:0 14px 30px rgba(217,45,73,.12); position:relative}
+  .price.feature{border-color:var(--red); box-shadow:0 14px 30px rgba(122,42,154,.14); position:relative}
   .price .tag{position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--red); color:#fff; font-size:12px; font-weight:700; padding:4px 12px; border-radius:999px; white-space:nowrap}
   .price h3{margin:0 0 4px; font-size:18px}
   .price .amount{font-size:34px; font-weight:800; margin:8px 0 2px; letter-spacing:-.02em}
@@ -149,7 +133,7 @@
   }
   @media(max-width:560px){
     section.block{padding:54px 0}
-    .g4{grid-template-columns:1fr}
+    .g3,.g4{grid-template-columns:1fr}
     .shots{justify-content:flex-start}
   }
 </style>
@@ -157,20 +141,22 @@
 <body>
 
 <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
-  <symbol id="mask" viewBox="0 0 220 240">
-    <ellipse cx="110" cy="118" rx="92" ry="116" fill="#fff"/>
-    <ellipse cx="78" cy="98" rx="18" ry="12" fill="#9e1c42" transform="rotate(-10 78 98)"/>
-    <path d="M122 100 Q145 84 168 102" fill="none" stroke="#9e1c42" stroke-width="9" stroke-linecap="round"/>
-    <path d="M70 150 Q110 190 158 142" fill="none" stroke="#9e1c42" stroke-width="11" stroke-linecap="round"/>
+  <symbol id="ghost" viewBox="0 0 100 100">
+    <path d="M15 86 V46 Q15 11 50 11 Q85 11 85 46 V86 Q79 93 73 84 Q67 93 61 86 Q55 93 50 84 Q44 93 39 86 Q33 93 27 84 Q21 93 15 86 Z" fill="#fff"/>
+    <ellipse cx="36" cy="47" rx="7" ry="8" fill="#4a1268"/>
+    <ellipse cx="64" cy="47" rx="7" ry="8" fill="#4a1268"/>
+    <circle cx="34" cy="43.5" r="2" fill="#fff"/>
+    <circle cx="62" cy="43.5" r="2" fill="#fff"/>
+    <ellipse cx="50" cy="66" rx="4" ry="3.5" fill="#4a1268"/>
   </symbol>
   <symbol id="apple" viewBox="0 0 24 24"><path fill="#fff" d="M16.4 12.9c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.9-3-.8-1.5 0-2.9.9-3.7 2.3-1.6 2.7-.4 6.8 1.1 9 .7 1.1 1.6 2.3 2.8 2.2 1.1 0 1.5-.7 2.9-.7s1.7.7 2.9.7 2-1.1 2.7-2.2c.9-1.2 1.2-2.5 1.2-2.5s-2.4-.9-2.4-3.6zM14.3 6c.6-.7 1-1.7.9-2.7-.9 0-2 .6-2.6 1.3-.6.6-1.1 1.6-.9 2.6 1 .1 2-.5 2.6-1.2z"/></symbol>
 </svg>
 
 <header>
   <div class="wrap nav">
-    <a class="brand" href="#top"><span class="mark"><svg><use href="#mask"/></svg></span>Inkognito</a>
+    <a class="brand" href="#top"><span class="mark"><svg><use href="#ghost"/></svg></span>Ploonk</a>
     <nav class="navlinks">
-      <a href="#how" data-de="So funktioniert's" data-en="How it works">So funktioniert's</a>
+      <a href="#games" data-de="Die Spiele" data-en="The games">Die Spiele</a>
       <a href="#shots" data-de="Screenshots" data-en="Screenshots">Screenshots</a>
       <a href="#pricing" data-de="Preise" data-en="Pricing">Preise</a>
       <a href="#faq" data-de="FAQ" data-en="FAQ">FAQ</a>
@@ -186,10 +172,10 @@
 <a id="top"></a>
 <section class="hero">
   <div class="wrap">
-    <div class="hero-mask"><svg width="118" height="118"><use href="#mask"/></svg></div>
-    <h1>Inkognito</h1>
-    <p class="sub" data-de="Alle malen dasselbe Wort – nur die Fälscher nicht. Findet den Hochstapler, bevor er euch täuscht."
-       data-en="Everyone draws the same word – except the fakers. Unmask the impostor before they fool you.">Alle malen dasselbe Wort – nur die Fälscher nicht. Findet den Hochstapler, bevor er euch täuscht.</p>
+    <div class="hero-mask"><svg width="118" height="118"><use href="#ghost"/></svg></div>
+    <h1>Ploonk</h1>
+    <p class="sub" data-de="Drei Party-Spiele in einer App – zeichnen, schätzen, bluffen. Ein Handy, die ganze Gruppe, sofort losgelegt."
+       data-en="Three party games in one app – draw, guess, bluff. One phone, the whole group, ready in seconds.">Drei Party-Spiele in einer App – zeichnen, schätzen, bluffen. Ein Handy, die ganze Gruppe, sofort losgelegt.</p>
     <div class="cta">
       <a class="store-badge" href="#pricing">
         <svg><use href="#apple"/></svg>
@@ -199,24 +185,41 @@
         </span>
         <span class="soon" data-de="Bald" data-en="Soon">Bald</span>
       </a>
-      <a class="btn btn-ghost" href="#how" data-de="So funktioniert's" data-en="How it works">So funktioniert's</a>
+      <a class="btn btn-ghost" href="#games" data-de="Die Spiele ansehen" data-en="See the games">Die Spiele ansehen</a>
     </div>
-    <p class="meta" data-de="3–12 Spieler · ein Handy · auch auf Papier · komplett offline"
-       data-en="3–12 players · one phone · also on paper · fully offline">3–12 Spieler · ein Handy · auch auf Papier · komplett offline</p>
+    <p class="meta" data-de="3 Spiele · 2–20 Spieler · ein Handy · offline &amp; online"
+       data-en="3 games · 2–20 players · one phone · offline &amp; online">3 Spiele · 2–20 Spieler · ein Handy · offline &amp; online</p>
   </div>
 </section>
 
-<!-- How it works -->
-<section class="block" id="how">
+<!-- Die 3 Spiele -->
+<section class="block" id="games">
   <div class="wrap">
-    <h2 data-de="So funktioniert's" data-en="How it works">So funktioniert's</h2>
-    <p class="lead" data-de="Eine Runde dauert nur ein paar Minuten – Anleitung in 30 Sekunden erklärt."
-       data-en="A round takes just a few minutes – learn the rules in 30 seconds.">Eine Runde dauert nur ein paar Minuten – Anleitung in 30 Sekunden erklärt.</p>
-    <div class="grid g4">
-      <div class="card"><div class="n">1</div><h3 data-de="Geheimes Wort" data-en="Secret word">Geheimes Wort</h3><p data-de="Alle bekommen dasselbe Wort – nur die Fälscher nicht." data-en="Everyone gets the same word – except the fakers.">Alle bekommen dasselbe Wort – nur die Fälscher nicht.</p></div>
-      <div class="card"><div class="n">2</div><h3 data-de="Reihum malen" data-en="Take turns drawing">Reihum malen</h3><p data-de="Jeder malt einen Teil zum Wort. Der Fälscher blufft mit." data-en="Each player draws a piece. The faker bluffs along.">Jeder malt einen Teil zum Wort. Der Fälscher blufft mit.</p></div>
-      <div class="card"><div class="n">3</div><h3 data-de="Enttarnen" data-en="Unmask">Enttarnen</h3><p data-de="Die Gruppe stimmt ab, wer der Fälscher ist." data-en="The group votes on who the faker is.">Die Gruppe stimmt ab, wer der Fälscher ist.</p></div>
-      <div class="card"><div class="n">4</div><h3 data-de="Punkten" data-en="Score">Punkten</h3><p data-de="Enttarnt? Der Fälscher darf kontern und das Wort raten." data-en="Caught? The faker can strike back by guessing the word.">Enttarnt? Der Fälscher darf kontern und das Wort raten.</p></div>
+    <h2 data-de="Drei Spiele, eine App" data-en="Three games, one app">Drei Spiele, eine App</h2>
+    <p class="lead" data-de="Für jede Stimmung das richtige Spiel – alle im selben Ploonk-Stil, alle für die ganze Gruppe."
+       data-en="The right game for every mood – all in the same Ploonk style, all for the whole group.">Für jede Stimmung das richtige Spiel – alle im selben Ploonk-Stil, alle für die ganze Gruppe.</p>
+    <div class="grid g3">
+      <div class="game">
+        <div class="ico" style="background:linear-gradient(135deg,#ed4566,#9e1c42)">🎨</div>
+        <h3>Inkognito</h3>
+        <div class="tag" data-de="Zeichnen &amp; den Fälscher enttarnen" data-en="Draw &amp; expose the faker">Zeichnen &amp; den Fälscher enttarnen</div>
+        <p data-de="Alle malen dasselbe Wort – nur die Fälscher nicht. Findet den Hochstapler, bevor er euch täuscht."
+           data-en="Everyone draws the same word – except the fakers. Unmask the impostor before they fool you.">Alle malen dasselbe Wort – nur die Fälscher nicht. Findet den Hochstapler, bevor er euch täuscht.</p>
+      </div>
+      <div class="game">
+        <div class="ico" style="background:linear-gradient(135deg,#8c4dfa,#f5479a)">🦊</div>
+        <h3>Tic</h3>
+        <div class="tag" data-de="Schätzen mit geheimer Mission" data-en="Guessing with a secret mission">Schätzen mit geheimer Mission</div>
+        <p data-de="Schätzfragen lösen – und heimlich einen Tic oder eine Mission durchziehen, ohne aufzufliegen."
+           data-en="Answer estimation questions – while secretly pulling off a tic or mission without getting caught.">Schätzfragen lösen – und heimlich einen Tic oder eine Mission durchziehen, ohne aufzufliegen.</p>
+      </div>
+      <div class="game">
+        <div class="ico" style="background:linear-gradient(135deg,#4d8bf7,#4739b8)">🦉</div>
+        <h3 data-de="Schätz-Spiel" data-en="Guessing game">Schätz-Spiel</h3>
+        <div class="tag" data-de="Wie groß? Wie weit?" data-en="How big? How far?">Wie groß? Wie weit?</div>
+        <p data-de="Größen, Mengen und Distanzen schätzen. Wer am nächsten dran ist, gewinnt die Runde – solo, in der Gruppe oder online."
+           data-en="Estimate sizes, amounts and distances. Whoever is closest wins the round – solo, in a group or online.">Größen, Mengen und Distanzen schätzen. Wer am nächsten dran ist, gewinnt die Runde – solo, in der Gruppe oder online.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -225,70 +228,50 @@
 <section class="block soft" id="shots">
   <div class="wrap">
     <h2 data-de="Blick in die App" data-en="A look inside">Blick in die App</h2>
-    <p class="lead" data-de="Aufgeräumtes Design, ein Handy für alle – so spielt sich Inkognito."
-       data-en="Clean design, one phone for everyone – this is how Inkognito plays.">Aufgeräumtes Design, ein Handy für alle – so spielt sich Inkognito.</p>
+    <p class="lead" data-de="Ein aufgeräumter Hub – von hier startest du jedes der drei Spiele."
+       data-en="One clean hub – start any of the three games from here.">Ein aufgeräumter Hub – von hier startest du jedes der drei Spiele.</p>
     <div class="shots">
-      <div class="phone"><img src="screenshots/menu.png" alt="Inkognito Startbildschirm" loading="lazy"></div>
-      <div class="phone"><img src="screenshots/reveal.png" alt="Rolle aufdecken" loading="lazy"></div>
-      <div class="phone"><img src="screenshots/word.png" alt="Geheimes Wort" loading="lazy"></div>
-      <div class="phone"><img src="screenshots/categories.png" alt="Kategorien" loading="lazy"></div>
-      <div class="phone"><img src="screenshots/setup.png" alt="Schwierigkeit einstellen" loading="lazy"></div>
+      <div class="phone"><img src="screenshots/ploonk-hub.png" alt="Ploonk Hauptmenü mit drei Spielen" loading="lazy"></div>
+      <div class="phone"><img src="screenshots/ploonk-inkognito.png" alt="Inkognito Startbildschirm" loading="lazy"></div>
+      <div class="phone"><img src="screenshots/ploonk-tic.png" alt="Tic Startbildschirm" loading="lazy"></div>
+      <div class="phone"><img src="screenshots/ploonk-schaetz.png" alt="Schätz-Spiel Startbildschirm" loading="lazy"></div>
     </div>
     <p class="shot-cap" data-de="Echte Screenshots aus der App." data-en="Real screenshots from the app.">Echte Screenshots aus der App.</p>
   </div>
 </section>
 
-<!-- Example words -->
-<section class="block" id="words">
+<!-- Highlights -->
+<section class="block" id="features">
   <div class="wrap">
-    <h2 data-de="Was wird gemalt?" data-en="What you'll draw">Was wird gemalt?</h2>
-    <p class="lead" data-de="Hunderte Wörter in drei Schwierigkeitsstufen – ein paar Beispiele:"
-       data-en="Hundreds of words in three difficulty levels – a few examples:">Hunderte Wörter in drei Schwierigkeitsstufen – ein paar Beispiele:</p>
-    <div class="words">
-      <span class="word"><span class="wd" style="background:#22c55e"></span><span data-de="Pinguin" data-en="Penguin">Pinguin</span></span>
-      <span class="word"><span class="wd" style="background:#22c55e"></span><span data-de="Elefant" data-en="Elephant">Elefant</span></span>
-      <span class="word"><span class="wd" style="background:#3b82f6"></span><span data-de="Regenschirm" data-en="Umbrella">Regenschirm</span></span>
-      <span class="word"><span class="wd" style="background:#3b82f6"></span><span data-de="Zahnbürste" data-en="Toothbrush">Zahnbürste</span></span>
-      <span class="word"><span class="wd" style="background:#a855f7"></span><span data-de="Selfie" data-en="Selfie">Selfie</span></span>
-      <span class="word"><span class="wd" style="background:#a855f7"></span><span data-de="Roboter" data-en="Robot">Roboter</span></span>
-      <span class="word"><span class="wd" style="background:#a855f7"></span><span data-de="Bitcoin" data-en="Bitcoin">Bitcoin</span></span>
-      <span class="word"><span class="wd" style="background:#f97316"></span><span data-de="Pizza" data-en="Pizza">Pizza</span></span>
-      <span class="word"><span class="wd" style="background:#f97316"></span><span data-de="Eiswaffel" data-en="Ice cream cone">Eiswaffel</span></span>
-      <span class="word"><span class="wd" style="background:#a855f7"></span><span data-de="E-Scooter" data-en="E-scooter">E-Scooter</span></span>
-    </div>
-  </div>
-</section>
-
-<!-- Categories -->
-<section class="block soft" id="categories">
-  <div class="wrap">
-    <h2 data-de="Kategorien" data-en="Categories">Kategorien</h2>
-    <p class="lead" data-de="Frische Wortpacks – auf Deutsch und Englisch."
-       data-en="Fresh word packs – in German and English.">Frische Wortpacks – auf Deutsch und Englisch.</p>
-    <div class="grid g4">
-      <div class="cat"><span class="dot" style="background:#e6f6ec">🐾</span><div><h3 data-de="Tiere" data-en="Animals">Tiere</h3><p data-de="Vom Pinguin bis zum Elefant" data-en="From penguin to elephant">Vom Pinguin bis zum Elefant</p></div></div>
-      <div class="cat"><span class="dot" style="background:#e7eefb">💡</span><div><h3 data-de="Gegenstände" data-en="Objects">Gegenstände</h3><p data-de="Dinge des Alltags" data-en="Everyday things">Dinge des Alltags</p></div></div>
-      <div class="cat"><span class="dot" style="background:#f1e9fb">🔥</span><div><h3 data-de="Trends" data-en="Trends">Trends</h3><p data-de="Hypes & Alltagstrends" data-en="Hypes & everyday trends">Hypes & Alltagstrends</p></div></div>
-      <div class="cat"><span class="dot" style="background:#fdeede">🍔</span><div><h3 data-de="Essen & Trinken" data-en="Food & drink">Essen & Trinken</h3><p data-de="Lecker & zeichenbar" data-en="Tasty & drawable">Lecker & zeichenbar</p></div><span class="pill">PRO</span></div>
+    <h2 data-de="Für jeden Spieleabend gemacht" data-en="Made for every game night">Für jeden Spieleabend gemacht</h2>
+    <p class="lead" data-de="Egal ob am Küchentisch oder verteilt auf mehreren Handys."
+       data-en="Whether around the kitchen table or spread across several phones.">Egal ob am Küchentisch oder verteilt auf mehreren Handys.</p>
+    <div class="grid g3">
+      <div class="card"><div class="n">📱</div><h3 data-de="Ein Handy für alle" data-en="One phone for everyone">Ein Handy für alle</h3><p data-de="Pass-and-play: Handy reihum weitergeben, kein zweites Gerät nötig." data-en="Pass-and-play: hand the phone around, no second device needed.">Pass-and-play: Handy reihum weitergeben, kein zweites Gerät nötig.</p></div>
+      <div class="card"><div class="n">🌐</div><h3 data-de="Online mit Freunden" data-en="Online with friends">Online mit Freunden</h3><p data-de="Private Lobby per Code – gemeinsam spielen, auch aus der Ferne." data-en="Private lobby via code – play together, even from afar.">Private Lobby per Code – gemeinsam spielen, auch aus der Ferne.</p></div>
+      <div class="card"><div class="n">🗂️</div><h3 data-de="Hunderte Fragen &amp; Wörter" data-en="Hundreds of questions &amp; words">Hunderte Fragen &amp; Wörter</h3><p data-de="Große Wort- und Frage-Pools in mehreren Kategorien – auf Deutsch &amp; Englisch." data-en="Large word and question pools across categories – in German &amp; English.">Große Wort- und Frage-Pools in mehreren Kategorien – auf Deutsch &amp; Englisch.</p></div>
+      <div class="card"><div class="n">🎲</div><h3 data-de="Immer wieder neu" data-en="Always fresh">Immer wieder neu</h3><p data-de="Frische Fragen und Wörter in jeder Runde – es wird nie langweilig." data-en="Fresh questions and words every round – it never gets stale.">Frische Fragen und Wörter in jeder Runde – es wird nie langweilig.</p></div>
+      <div class="card"><div class="n">✈️</div><h3 data-de="Offline spielbar" data-en="Playable offline">Offline spielbar</h3><p data-de="Der lokale Modus läuft komplett ohne Internet – perfekt für unterwegs." data-en="Local mode works fully offline – perfect for on the go.">Der lokale Modus läuft komplett ohne Internet – perfekt für unterwegs.</p></div>
+      <div class="card"><div class="n">🔒</div><h3 data-de="Ein Abo, alles frei" data-en="One subscription, all unlocked">Ein Abo, alles frei</h3><p data-de="Die Vollversion schaltet alle drei Spiele komplett frei – nicht jedes einzeln." data-en="The full version unlocks all three games completely – not each one separately.">Die Vollversion schaltet alle drei Spiele komplett frei – nicht jedes einzeln.</p></div>
     </div>
   </div>
 </section>
 
 <!-- Pricing -->
-<section class="block" id="pricing">
+<section class="block soft" id="pricing">
   <div class="wrap">
     <h2 data-de="Preise" data-en="Pricing">Preise</h2>
-    <p class="lead" data-de="Kostenlos starten – Premium schaltet alle Kategorien & Wörter frei."
-       data-en="Start for free – Premium unlocks all categories & words.">Kostenlos starten – Premium schaltet alle Kategorien & Wörter frei.</p>
+    <p class="lead" data-de="Kostenlos starten – ein Abo schaltet alle drei Spiele komplett frei."
+       data-en="Start for free – one subscription unlocks all three games completely.">Kostenlos starten – ein Abo schaltet alle drei Spiele komplett frei.</p>
     <div class="prices">
       <div class="price">
         <h3 data-de="Gratis" data-en="Free">Gratis</h3>
         <div class="amount">0 €</div>
         <div class="per" data-de="für immer" data-en="forever">für immer</div>
         <ul>
-          <li data-de="Kategorie „Tiere“" data-en="“Animals” category">Kategorie „Tiere“</li>
-          <li data-de="Beide Spielmodi" data-en="Both game modes">Beide Spielmodi</li>
-          <li data-de="3–12 Spieler" data-en="3–12 players">3–12 Spieler</li>
+          <li data-de="Alle 3 Spiele anspielbar" data-en="Try all 3 games">Alle 3 Spiele anspielbar</li>
+          <li data-de="Eine Gratis-Kategorie pro Spiel" data-en="One free category per game">Eine Gratis-Kategorie pro Spiel</li>
+          <li data-de="Online-Lobby beitreten" data-en="Join online lobbies">Online-Lobby beitreten</li>
         </ul>
       </div>
       <div class="price feature">
@@ -297,8 +280,9 @@
         <div class="amount">9,99 €</div>
         <div class="per" data-de="pro Jahr · ca. 0,83 €/Monat" data-en="per year · approx. €0.83/month">pro Jahr · ca. 0,83 €/Monat</div>
         <ul>
-          <li data-de="Alle Kategorien & Wörter" data-en="All categories & words">Alle Kategorien & Wörter</li>
-          <li data-de="Alle künftigen Wort-Packs" data-en="All future word packs">Alle künftigen Wort-Packs</li>
+          <li data-de="Alle Kategorien &amp; Wörter" data-en="All categories &amp; words">Alle Kategorien &amp; Wörter</li>
+          <li data-de="Alle 3 Spiele komplett frei" data-en="All 3 games fully unlocked">Alle 3 Spiele komplett frei</li>
+          <li data-de="Eigene Online-Lobbys hosten" data-en="Host your own online lobbies">Eigene Online-Lobbys hosten</li>
           <li data-de="3 Tage gratis testen" data-en="3-day free trial">3 Tage gratis testen</li>
         </ul>
         <div class="small" data-de="Jederzeit kündbar" data-en="Cancel anytime">Jederzeit kündbar</div>
@@ -308,51 +292,51 @@
         <div class="amount">2,49 €</div>
         <div class="per" data-de="pro Monat" data-en="per month">pro Monat</div>
         <ul>
-          <li data-de="Alle Kategorien & Wörter" data-en="All categories & words">Alle Kategorien & Wörter</li>
+          <li data-de="Alle 3 Spiele komplett frei" data-en="All 3 games fully unlocked">Alle 3 Spiele komplett frei</li>
           <li data-de="Flexibel monatlich" data-en="Flexible monthly">Flexibel monatlich</li>
           <li data-de="Jederzeit kündbar" data-en="Cancel anytime">Jederzeit kündbar</li>
         </ul>
       </div>
     </div>
-    <p class="note" data-de="Inkognito ist kostenlos ladbar. Premium als Abo über deine Apple-ID. Preise zum Launch ggf. abweichend."
-       data-en="Inkognito is free to download. Premium is a subscription via your Apple ID. Prices may differ at launch.">Inkognito ist kostenlos ladbar. Premium als Abo über deine Apple-ID. Preise zum Launch ggf. abweichend.</p>
+    <p class="note" data-de="Ploonk ist kostenlos ladbar. Die Vollversion gibt es als Abo über deine Apple-ID. Preise zum Launch ggf. abweichend."
+       data-en="Ploonk is free to download. The full version is a subscription via your Apple ID. Prices may differ at launch.">Ploonk ist kostenlos ladbar. Die Vollversion gibt es als Abo über deine Apple-ID. Preise zum Launch ggf. abweichend.</p>
   </div>
 </section>
 
 <!-- FAQ -->
-<section class="block soft" id="faq">
+<section class="block" id="faq">
   <div class="wrap">
     <h2 data-de="Häufige Fragen" data-en="FAQ">Häufige Fragen</h2>
     <div class="faq" style="margin-top:40px">
       <details open>
-        <summary data-de="Was ist Inkognito?" data-en="What is Inkognito?">Was ist Inkognito?</summary>
-        <p data-de="Ein Party-Mal-Spiel: Alle kennen ein geheimes Wort und malen reihum etwas dazu – nur die Fälscher nicht. Sie müssen bluffen, ohne aufzufliegen."
-           data-en="A party drawing game: everyone knows a secret word and takes turns drawing – except the fakers, who must bluff without getting caught.">Ein Party-Mal-Spiel: Alle kennen ein geheimes Wort und malen reihum etwas dazu – nur die Fälscher nicht. Sie müssen bluffen, ohne aufzufliegen.</p>
+        <summary data-de="Was ist Ploonk?" data-en="What is Ploonk?">Was ist Ploonk?</summary>
+        <p data-de="Ploonk ist eine App mit drei Party-Spielen: Inkognito (zeichnen &amp; den Fälscher enttarnen), Tic (schätzen mit einer geheimen Mission) und das Schätz-Spiel (Größen, Mengen &amp; Distanzen raten). Ihr startet alle drei aus demselben Hauptmenü."
+           data-en="Ploonk is one app with three party games: Inkognito (draw &amp; expose the faker), Tic (guessing with a secret mission) and the Guessing Game (estimate sizes, amounts &amp; distances). You start all three from the same hub.">Ploonk ist eine App mit drei Party-Spielen: Inkognito (zeichnen &amp; den Fälscher enttarnen), Tic (schätzen mit einer geheimen Mission) und das Schätz-Spiel (Größen, Mengen &amp; Distanzen raten). Ihr startet alle drei aus demselben Hauptmenü.</p>
       </details>
       <details>
         <summary data-de="Wie viele Spieler braucht man?" data-en="How many players do I need?">Wie viele Spieler braucht man?</summary>
-        <p data-de="3 bis 12 Spieler an einem Gerät. Je nach Gruppengröße sind 1–3 Fälscher dabei."
-           data-en="3 to 12 players on one device. Depending on group size there are 1–3 fakers.">3 bis 12 Spieler an einem Gerät. Je nach Gruppengröße sind 1–3 Fälscher dabei.</p>
+        <p data-de="Je nach Spiel 2 bis 20 Spieler – meist an einem Gerät, das reihum weitergegeben wird. Manche Spiele gehen auch online auf mehreren Handys."
+           data-en="Depending on the game, 2 to 20 players – usually on one device passed around. Some games also work online across several phones.">Je nach Spiel 2 bis 20 Spieler – meist an einem Gerät, das reihum weitergegeben wird. Manche Spiele gehen auch online auf mehreren Handys.</p>
       </details>
       <details>
         <summary data-de="Braucht man Internet?" data-en="Do I need internet?">Braucht man Internet?</summary>
-        <p data-de="Nein. Inkognito funktioniert komplett offline – perfekt für unterwegs."
-           data-en="No. Inkognito works fully offline – perfect for on the go.">Nein. Inkognito funktioniert komplett offline – perfekt für unterwegs.</p>
+        <p data-de="Für den lokalen Pass-and-play-Modus nicht – der läuft komplett offline. Nur der Online-Modus (gemeinsam auf mehreren Handys) braucht eine Verbindung."
+           data-en="Not for local pass-and-play – that works fully offline. Only the online mode (together on several phones) needs a connection.">Für den lokalen Pass-and-play-Modus nicht – der läuft komplett offline. Nur der Online-Modus (gemeinsam auf mehreren Handys) braucht eine Verbindung.</p>
       </details>
       <details>
-        <summary data-de="Kann man auch auf Papier spielen?" data-en="Can you play on paper?">Kann man auch auf Papier spielen?</summary>
-        <p data-de="Ja. Im Papier-Modus verteilt die App nur die Rollen, gemalt wird auf echtem Papier. Abgestimmt wird wieder in der App."
-           data-en="Yes. In paper mode the app only hands out the roles, you draw on real paper, and voting happens back in the app.">Ja. Im Papier-Modus verteilt die App nur die Rollen, gemalt wird auf echtem Papier. Abgestimmt wird wieder in der App.</p>
+        <summary data-de="Muss ich jedes Spiel einzeln kaufen?" data-en="Do I have to buy each game separately?">Muss ich jedes Spiel einzeln kaufen?</summary>
+        <p data-de="Nein. Ein einziges Abo schaltet die Vollversion aller drei Spiele frei. Gratis kannst du jedes Spiel mit einer Kategorie und den Grundfunktionen ausprobieren."
+           data-en="No. A single subscription unlocks the full version of all three games. For free you can try each game with one category and the basics.">Nein. Ein einziges Abo schaltet die Vollversion aller drei Spiele frei. Gratis kannst du jedes Spiel mit einer Kategorie und den Grundfunktionen ausprobieren.</p>
       </details>
       <details>
-        <summary data-de="Was kostet Inkognito?" data-en="What does Inkognito cost?">Was kostet Inkognito?</summary>
-        <p data-de="Der Download ist gratis und die Kategorie „Tiere“ dauerhaft kostenlos. Premium (alle Kategorien) gibt es als Abo: 2,49 €/Monat oder 9,99 €/Jahr."
-           data-en="The download is free and the “Animals” category is free forever. Premium (all categories) is a subscription: €2.49/month or €9.99/year.">Der Download ist gratis und die Kategorie „Tiere“ dauerhaft kostenlos. Premium (alle Kategorien) gibt es als Abo: 2,49 €/Monat oder 9,99 €/Jahr.</p>
+        <summary data-de="Was kostet Ploonk?" data-en="What does Ploonk cost?">Was kostet Ploonk?</summary>
+        <p data-de="Der Download ist gratis. Die Vollversion (alle Spiele, alle Kategorien) gibt es als Abo: 2,49 €/Monat oder 9,99 €/Jahr, mit 3 Tagen Gratis-Test."
+           data-en="The download is free. The full version (all games, all categories) is a subscription: €2.49/month or €9.99/year, with a 3-day free trial.">Der Download ist gratis. Die Vollversion (alle Spiele, alle Kategorien) gibt es als Abo: 2,49 €/Monat oder 9,99 €/Jahr, mit 3 Tagen Gratis-Test.</p>
       </details>
       <details>
         <summary data-de="Auf welchen Geräten läuft es?" data-en="Which devices are supported?">Auf welchen Geräten läuft es?</summary>
-        <p data-de="Auf dem iPhone ab iOS 17. Ein Gerät reicht für die ganze Gruppe (Pass-the-Phone)."
-           data-en="On iPhone with iOS 17 or newer. One device is enough for the whole group (pass-the-phone).">Auf dem iPhone ab iOS 17. Ein Gerät reicht für die ganze Gruppe (Pass-the-Phone).</p>
+        <p data-de="Auf dem iPhone ab iOS 17. Für den lokalen Modus reicht ein Gerät für die ganze Gruppe (Pass-the-Phone)."
+           data-en="On iPhone with iOS 17 or newer. For local mode, one device is enough for the whole group (pass-the-phone).">Auf dem iPhone ab iOS 17. Für den lokalen Modus reicht ein Gerät für die ganze Gruppe (Pass-the-Phone).</p>
       </details>
       <details>
         <summary data-de="In welchen Sprachen gibt es die App?" data-en="What languages is the app in?">In welchen Sprachen gibt es die App?</summary>
@@ -361,8 +345,8 @@
       </details>
       <details>
         <summary data-de="Sammelt die App Daten?" data-en="Does the app collect data?">Sammelt die App Daten?</summary>
-        <p data-de="Nur, wenn du beim Start ausdrücklich zustimmst. Deine Zeichnungen und Fotos bleiben immer auf dem Gerät. Mehr dazu im Datenschutz."
-           data-en="Only if you explicitly agree at launch. Your drawings and photos always stay on the device. See the privacy policy for details.">Nur, wenn du beim Start ausdrücklich zustimmst. Deine Zeichnungen und Fotos bleiben immer auf dem Gerät. Mehr dazu im Datenschutz.</p>
+        <p data-de="Nur, wenn du ausdrücklich zustimmst. Deine Zeichnungen und Fotos bleiben immer auf dem Gerät. Im Online-Modus sehen andere nur deinen Namen &amp; Emoji. Mehr dazu im Datenschutz."
+           data-en="Only if you explicitly agree. Your drawings and photos always stay on the device. In online mode others only see your name &amp; emoji. See the privacy policy for details.">Nur, wenn du ausdrücklich zustimmst. Deine Zeichnungen und Fotos bleiben immer auf dem Gerät. Im Online-Modus sehen andere nur deinen Namen &amp; Emoji. Mehr dazu im Datenschutz.</p>
       </details>
     </div>
   </div>
@@ -372,8 +356,8 @@
 <section class="final">
   <div class="wrap">
     <h2 data-de="Bald spielbar" data-en="Playable soon">Bald spielbar</h2>
-    <p data-de="Inkognito erscheint bald im App Store. Schnapp dir Freunde und enttarnt den Fälscher!"
-       data-en="Inkognito is coming soon to the App Store. Grab your friends and unmask the faker!">Inkognito erscheint bald im App Store. Schnapp dir Freunde und enttarnt den Fälscher!</p>
+    <p data-de="Ploonk erscheint bald im App Store. Schnapp dir Freunde und leg los – zeichnen, schätzen, bluffen!"
+       data-en="Ploonk is coming soon to the App Store. Grab your friends and get started – draw, guess, bluff!">Ploonk erscheint bald im App Store. Schnapp dir Freunde und leg los – zeichnen, schätzen, bluffen!</p>
     <a class="store-badge" href="#top">
       <svg><use href="#apple"/></svg>
       <span class="sb-text">
@@ -387,7 +371,7 @@
 
 <footer>
   <div class="wrap fnav">
-    <span>© <span id="year"></span> Inkognito</span>
+    <span>© <span id="year"></span> Ploonk</span>
     <span class="spacer"></span>
     <a href="privacy.html" data-de="Datenschutz" data-en="Privacy">Datenschutz</a>
     <a href="terms.html" data-de="Nutzungsbedingungen" data-en="Terms">Nutzungsbedingungen</a>
@@ -408,11 +392,11 @@
     document.querySelectorAll('#lang button').forEach(b =>
       b.classList.toggle('active', b.dataset.set === lang));
     // Nur bei aktiver Auswahl speichern (DSGVO/§25 TTDSG: keine Speicherung beim bloßen Laden)
-    if (persist) { try { localStorage.setItem('inkognito_lang', lang); } catch(e){} }
+    if (persist) { try { localStorage.setItem('ploonk_lang', lang); } catch(e){} }
   };
   document.querySelectorAll('#lang button').forEach(b =>
     b.addEventListener('click', () => setLang(b.dataset.set, true)));
-  const saved = (()=>{ try { return localStorage.getItem('inkognito_lang'); } catch(e){ return null; } })();
+  const saved = (()=>{ try { return localStorage.getItem('ploonk_lang'); } catch(e){ return null; } })();
   const initial = saved || ((navigator.language||'de').startsWith('en') ? 'en' : 'de');
   setLang(initial, false);
 </script>
